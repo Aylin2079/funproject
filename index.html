@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Romantic Good Morning Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff0f5;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #d6336c;
+      margin-bottom: 30px;
+    }
+
+    .quote-box {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .generate-btn {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    .generate-btn:hover {
+      background-color: #ff85c1;
+    }
+
+    .copy-btn {
+      background-color: #6a5acd;
+      color: white;
+    }
+
+    .copy-btn:hover {
+      background-color: #837be3;
+    }
+
+    .copied {
+      color: green;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Romantic Good Morning Texts</h1>
+  <div class="quote-box" id="quoteBox">Click the button to get a message ❤️</div>
+  <button class="generate-btn" onclick="generateText()">Generate</button>
+  <button class="copy-btn" onclick="copyText()">Copy</button>
+  <div id="copyStatus" class="copied"></div>
+
+  <script>
+    const messages = [
+      "Good morning, my love. I hope your day is as beautiful as your smile.",
+      "Waking up knowing you're mine is the best feeling in the world.",
+      "Just wanted to say good morning and that I love you more each day.",
+      "Your smile is the sunshine that lights up my morning.",
+      "I dreamt of you all night and now I get to think of you all day.",
+      "Every morning feels magical when I wake up thinking of you.",
+      "Good morning, my sweetheart. May your day be filled with love and laughter.",
+      "You are my sunshine. I hope your day is as bright as your heart.",
+      "Morning, my angel. I just wanted to remind you that I love you deeply.",
+      "Thinking of you is the first thing I do when I wake up.",
+      "I wish I could kiss you good morning instead of just texting you.",
+      "Good morning, baby. You’re my first thought every single day.",
+      "Rise and shine, my love. The world awaits your smile.",
+      "Your love gives me strength every morning I wake up.",
+      "Another beautiful morning to be thankful that you're mine.",
+      "Sending warm hugs and kisses with this message. Good morning!",
+      "You are the reason my mornings are full of joy.",
+      "Good morning to the person who makes my heart skip a beat.",
+      "I hope your coffee is as sweet as your voice.",
+      "Every morning spent with you is a blessing.",
+      "I’m sending you this message wrapped in kisses and hugs. Good morning!",
+      "The morning is better because you're in my life.",
+      "You're the melody to my mornings and the peace to my nights.",
+      "I fell asleep thinking of you and woke up smiling because of you.",
+      "You make my world so beautiful. Good morning, darling!",
+      "Good morning, my queen. May your day be as graceful as your soul.",
+      "You’re my forever and always. Good morning, love!",
+      "The sun rises for you, my love. Embrace this day!",
+      "Even the sun is jealous of your smile. Good morning!",
+      "Let today be full of love and magic, just like you.",
+      "My heart belongs to you every morning, noon, and night.",
+      "Good morning, beautiful. My love for you grows stronger each day.",
+      "Start your day knowing that you are truly loved.",
+      "Wishing you a day as sweet and lovely as your heart.",
+      "May your morning be soft and your coffee strong, my love.",
+      "You are my today and all of my tomorrows. Good morning!",
+      "If I were with you, I'd be kissing you awake right now.",
+      "Every morning is a reminder that I’m lucky to have you.",
+      "You light up my life like the morning sun.",
+      "The best part of my day is saying good morning to you.",
+      "You’re the reason I wake up with a smile every morning.",
+      "My mornings wouldn’t be complete without telling you I love you.",
+      "You're my dream come true, every morning and every night.",
+      "I woke up smiling just thinking of you. Good morning, babe!",
+      "May your day start with love and end with beautiful memories.",
+      "Just a reminder: you are amazing, and I love you.",
+      "You're the sugar in my coffee, the joy in my morning.",
+      "Your voice is the only alarm I ever want to hear.",
+      "I hope your morning is as radiant as your soul.",
+      "You are my first thought when I open my eyes.",
+      "Good morning to the one who makes my heart flutter.",
+      "I’m sending you a hug in this message. Can you feel it?",
+      "You complete my mornings with your love.",
+      "Just a little note to say I love you. Good morning!",
+      "Wishing I was there to hold you this morning.",
+      "You’re my favorite reason to wake up each day.",
+      "I love you more than the first sip of coffee.",
+      "The sun is up and so is my love for you.",
+      "Good morning, my forever love.",
+      "Each morning I thank the universe for bringing you to me.",
+      "You're the best thing that ever happened to my mornings.",
+      "If kisses were raindrops, I’d send you a storm this morning.",
+      "Just hearing your name makes my heart smile. Good morning!",
+      "With you, every morning feels like a fairytale.",
+      "You're my warm blanket on a cold morning.",
+      "Nothing feels better than knowing you're mine. Good morning!",
+      "You’re the beat in my heart and the smile on my face.",
+      "A day with you is a day worth waking up for.",
+      "I’d rather be in your arms than anywhere else this morning.",
+      "You're the music to my soul’s morning dance.",
+      "Your love fuels me every morning.",
+      "You’re the calm in my chaos. Good morning, baby.",
+      "My day starts perfectly when I think of you.",
+      "You are more than a habit; you're my heart's necessity.",
+      "You're the reason I sleep happy and wake up happier.",
+      "Each morning is a new page of our love story.",
+      "Good morning! I’m yours forever.",
+      "Your love makes every morning magical.",
+      "Without you, mornings feel empty.",
+      "Waking up to your texts makes my day instantly better.",
+      "You’re all I need to start my day right.",
+      "Just wanted to say I’m madly in love with you. Good morning!",
+      "Your smile is my morning sunshine.",
+      "Good morning to the one who knows my soul.",
+      "My mornings are incomplete without you in them.",
+      "Let’s make today another chapter of our beautiful story.",
+      "You are the joy behind my good mornings.",
+      "Even a gray morning brightens up when I think of you.",
+      "You + Me = Perfect Morning.",
+      "Your love is my favorite wake-up call.",
+      "My morning hug is coming through this message!",
+      "Rise and shine, gorgeous. The world is better with you.",
+      "There’s no better way to start my day than with you on my mind.",
+      "Love woke me up again today.",
+      "You're not just my morning, you’re my every moment.",
+      "Each sunrise brings new love for you.",
+      "Your voice is all the caffeine I need.",
+      "Sending you good vibes, warm kisses, and loving thoughts.",
+      "You’re the light in my life — good morning, darling.",
+      "My morning = coffee + thoughts of you.",
+      "You're the whisper in my morning wind.",
+      "Even the birds sing about you. Good morning!",
+      "Let this message be your smile for the day."
+    ];
+
+    function generateText() {
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      document.getElementById("quoteBox").textContent = messages[randomIndex];
+      document.getElementById("copyStatus").textContent = "";
+    }
+
+    function copyText() {
+      const text = document.getElementById("quoteBox").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        document.getElementById("copyStatus").textContent = "Copied!";
+      });
+    }
+  </script>
+</body>
+</html>
