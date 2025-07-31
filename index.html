@@ -6,144 +6,50 @@
   <title>Romantic Good Morning Generator</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #fff0f5;
-      color: #333;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff9f9;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #d6336c;
-      margin-bottom: 30px;
-    }
-
-    .quote-box {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 30px;
+      padding: 1em;
       text-align: center;
-      max-width: 500px;
-      width: 100%;
-      margin-bottom: 20px;
-      font-size: 1.2em;
     }
-
-    button {
+    select, button {
+      padding: 10px;
+      font-size: 16px;
       margin: 5px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s;
     }
-
-    .generate-btn {
-      background-color: #ff69b4;
-      color: white;
-    }
-
-    .generate-btn:hover {
-      background-color: #ff85c1;
-    }
-
-    .copy-btn {
-      background-color: #6a5acd;
-      color: white;
-    }
-
-    .copy-btn:hover {
-      background-color: #837be3;
-    }
-
-    .copied {
-      color: green;
-      margin-top: 10px;
-      font-size: 0.9em;
+    #message {
+      margin-top: 20px;
+      font-size: 1.3em;
+      color: #b30059;
+      max-width: 600px;
     }
   </style>
 </head>
 <body>
+  <h1>🌸 Romantic Good Morning Generator</h1>
 
-  <h1>Romantic Good Morning Texts</h1>
-  <div class="quote-box" id="quoteBox">Click the button to get a message ❤️</div>
-  <button class="generate-btn" onclick="generateText()">Generate</button>
-  <button class="copy-btn" onclick="copyText()">Copy</button>
-  <div id="copyStatus" class="copied"></div>
+  <label for="language">Choose a language:</label>
+  <select id="language">
+    <option value="english">English</option>
+    <option value="turkish">Turkish</option>
+    <option value="persian">Persian</option>
+  </select>
+
+  <div>
+    <button onclick="generate()">Generate Message</button>
+    <button onclick="copyText()">Copy</button>
+  </div>
+
+  <div id="message">💌 Your romantic message will appear here</div>
 
   <script>
-    const messages = [
-      "Good morning, my love. I hope your day is as beautiful as your smile.",
-      "Waking up knowing you're mine is the best feeling in the world.",
-      "Just wanted to say good morning and that I love you more each day.",
-      "Your smile is the sunshine that lights up my morning.",
-      "I dreamt of you all night and now I get to think of you all day.",
-      "Every morning feels magical when I wake up thinking of you.",
-      "Good morning, my sweetheart. May your day be filled with love and laughter.",
-      "You are my sunshine. I hope your day is as bright as your heart.",
-      "Morning, my angel. I just wanted to remind you that I love you deeply.",
-      "Thinking of you is the first thing I do when I wake up.",
-      "I wish I could kiss you good morning instead of just texting you.",
-      "Good morning, baby. You’re my first thought every single day.",
-      "Rise and shine, my love. The world awaits your smile.",
-      "Your love gives me strength every morning I wake up.",
-      "Another beautiful morning to be thankful that you're mine.",
-      "Sending warm hugs and kisses with this message. Good morning!",
-      "You are the reason my mornings are full of joy.",
-      "Good morning to the person who makes my heart skip a beat.",
-      "I hope your coffee is as sweet as your voice.",
-      "Every morning spent with you is a blessing.",
-      "I’m sending you this message wrapped in kisses and hugs. Good morning!",
-      "The morning is better because you're in my life.",
-      "You're the melody to my mornings and the peace to my nights.",
-      "I fell asleep thinking of you and woke up smiling because of you.",
-      "You make my world so beautiful. Good morning, darling!",
-      "Good morning, my queen. May your day be as graceful as your soul.",
-      "You’re my forever and always. Good morning, love!",
-      "The sun rises for you, my love. Embrace this day!",
-      "Even the sun is jealous of your smile. Good morning!",
-      "Let today be full of love and magic, just like you.",
-      "My heart belongs to you every morning, noon, and night.",
-      "Good morning, beautiful. My love for you grows stronger each day.",
-      "Start your day knowing that you are truly loved.",
-      "Wishing you a day as sweet and lovely as your heart.",
-      "May your morning be soft and your coffee strong, my love.",
-      "You are my today and all of my tomorrows. Good morning!",
-      "If I were with you, I'd be kissing you awake right now.",
-      "Every morning is a reminder that I’m lucky to have you.",
-      "You light up my life like the morning sun.",
-      "The best part of my day is saying good morning to you.",
-      "You’re the reason I wake up with a smile every morning.",
-      "My mornings wouldn’t be complete without telling you I love you.",
-      "You're my dream come true, every morning and every night.",
-      "I woke up smiling just thinking of you. Good morning, babe!",
-      "May your day start with love and end with beautiful memories.",
-      "Just a reminder: you are amazing, and I love you.",
-      "You're the sugar in my coffee, the joy in my morning.",
-      "Your voice is the only alarm I ever want to hear.",
-      "I hope your morning is as radiant as your soul.",
-      "You are my first thought when I open my eyes.",
-      "Good morning to the one who makes my heart flutter.",
-      "I’m sending you a hug in this message. Can you feel it?",
-      "You complete my mornings with your love.",
-      "Just a little note to say I love you. Good morning!",
-      "Wishing I was there to hold you this morning.",
-      "You’re my favorite reason to wake up each day.",
-      "I love you more than the first sip of coffee.",
-      "The sun is up and so is my love for you.",
-      "Good morning, my forever love.",
-      "Each morning I thank the universe for bringing you to me.",
-      "You're the best thing that ever happened to my mornings.",
-      "If kisses were raindrops, I’d send you a storm this morning.",
-      "Just hearing your name makes my heart smile. Good morning!",
-      "With you, every morning feels like a fairytale.",
+    const messages = {
+      english: [
+        "With you, every morning feels like a fairytale.",
       "You're my warm blanket on a cold morning.",
       "Nothing feels better than knowing you're mine. Good morning!",
       "You’re the beat in my heart and the smile on my face.",
@@ -183,18 +89,224 @@
       "You're the whisper in my morning wind.",
       "Even the birds sing about you. Good morning!",
       "Let this message be your smile for the day."
-    ];
+      ],
+      turkish: [
+        "Günaydın aşkım, güneşimsin!",
+"Sabahlar seninle güzel sevgilim.",
+"Uyanınca aklımdaki ilk şeysin, günaydın.",
+"Gözlerimi açtığımda seni düşündüm, günaydın canım.",
+"Her yeni güne seninle uyanmak ne güzel. Günaydın!",
+"Günaydın meleğim, yeni güne hoş geldin.",
+"Seninle her sabah bir başka güzel.",
+"Güneş gibi parlayanım, günaydın.",
+"Gül kokulum, günaydın.",
+"Kalbimin prensi/prensesi, günaydın.",
+"Aşkım, iyi ki varsın. Günaydın.",
+"Seninle bir ömür sabahlamak dileğiyle, günaydın.",
+"Günaydın çiçeğim, günün aydın olsun.",
+"Rüyamda sen, uyanınca sen... Günaydın bir tanem.",
+"Seninle uyanmak, hayata yeniden başlamak gibi.",
+"Günaydın hayat arkadaşım.",
+"Her sabaha adınla uyanmak paha biçilemez.",
+"Günaydın balım, tatlı uykularından uyandın mı?",
+"Gözlerinin pırıltısı gibi aydınlık bir gün dilerim.",
+"Günaydın ömrüm, iyi ki benimlesin.",
+"Yeni bir gün, yeni umutlar, seninle... Günaydın.",
+"Kahvaltı hazır, aşkım! Günaydın.",
+"Günaydın mucizem, günün harika geçsin.",
+"Yanağında bir öpücükle, günaydın sevgilim.",
+"Seninle uyanmak kadar güzel ne olabilir ki?",
+"Günaydın ışığım, yolumu aydınlatanım.",
+"Seninle başlayan her gün özel. Günaydın.",
+"Kalbimde açan en güzel çiçek, günaydın.",
+"Günaydın ruh eşim.",
+"Sabahın ilk ışıklarıyla seni düşündüm. Günaydın.",
+"Hayatımı anlamlandıranım, günaydın.",
+"Günaydın meleğim, tatlı rüyaların bitti mi?",
+"Uykun nasıl geçti aşkım? Günaydın.",
+"Sen varken her sabah daha güzel.",
+"Günaydın ay ışığım.",
+"Yanımda olmasan da kalbimdesin. Günaydın.",
+"Günaydın dünyamın en güzel insanı.",
+"Her güne seninle merhaba demek istiyorum.",
+"Günaydın cennet kokulum.",
+"Sabah kahvemde sen, kalbimde sen. Günaydın.",
+"Güneşe inat, sen daha parlaksın. Günaydın.",
+"Günaydın uykucu, kalkma zamanı!",
+"Bir ömür boyu seninle uyanmak dileğiyle.",
+"Günaydın gülen yüzüm.",
+"Seninle bir başka güzel sabahlar.",
+"Sesini duymakla güne başlamak gibisi yok.",
+"Günaydın rüyalarımın prensesi/prensi.",
+"Aşkım, kalk artık, güneş doğdu!",
+"Günaydın hayatımın anlamı.",
+"Ne iyi ettin de geldin hayatıma. Günaydın.",
+"Senle başlayan her gün bayram. Günaydın.",
+"Günaydın tatlım, seni seviyorum.",
+"Her yeni gün seni daha çok seviyorum. Günaydın.",
+"Günaydın gözümün nuru.",
+"Seninle olunca sabahlar bile romantik.",
+"Günaydın can yoldaşım.",
+"İyi ki varsın, günaydın aşkım.",
+"Uyanır uyanmaz aklıma düşen en güzel şey.",
+"Günaydın meleğime!",
+"Seninle her şey güzel. Günaydın.",
+"Güne seninle başlamak şükür sebebim.",
+"Günaydın kalp atışım.",
+"Sabahın en güzel renkleri seninle.",
+"Günaydın mutluluğum.",
+"Sen varsan her gün bahar. Günaydın.",
+"Benim için güneşi sen doğuruyorsun. Günaydın.",
+"Günaydın, umarım güzel bir gün geçirirsin.",
+"Seni çok özledim. Günaydın.",
+"Günaydın, sen benim için en değerlisin.",
+"Bir kuş sesi gibi, içime huzur verenim. Günaydın.",
+"Günaydın meleğime, uykundan öpücüklerle uyandırıyorum.",
+"Sabahın ilk saatlerinde bile güzelsin. Günaydın.",
+"Günaydın sevgili, günün aydın olsun.",
+"Hayatımın anlamı, her şeyim. Günaydın.",
+"Günaydın, bugün de çok güzelsin.",
+"Seninle her gün bir macera. Günaydın.",
+"Günaydın, yeni bir güne seninle başlamak harika.",
+"Ruhumun gıdası, günaydın.",
+"Günaydın, bugünkü planın ne?",
+"Benim için en özel insan, günaydın.",
+"Günaydın, kalbim seninle dolu.",
+"Günaydın biriciğim.",
+"Her sabah uyanma sebebimsin. Günaydın.",
+"Günaydın, bugünün de harika geçsin.",
+"Seninle uyanmak, cennette uyanmak gibi.",
+"Günaydın, dün gece rüyalarıma geldin.",
+"Aşkla dolu bir günaydın!",
+"Günaydın yakışıklım/güzelim.",
+"Gözlerini aç, dünya güzeli seni bekliyor.",
+"Günaydın, seninle her şey daha anlamlı.",
+"Seninle bir ömür sabahlamak istiyorum.",
+"Günaydın canım sevgilim.",
+"Sabahın en güzel ışığı, senin gülüşün. Günaydın.",
+"Günaydın tatlı rüyaların mimarı.",
+"Seninle her an bir hediye. Günaydın.",
+"Günaydın, günün neşe dolu geçsin.",
+"Uyanır uyanmaz seni görmek ne güzel. Günaydın.",
+"Günaydın, hep benimle kal.",
+"Aşkımızla ısınan bir günaydın.",
+"Günaydın, seni çok seviyorum!"
+      ],
+      persian: [
+       "صبح بخیر عشق من، تو آفتاب منی!"
+"صبح‌ها با تو زیباست عزیزم."
+"وقتی بیدار شدم، اولین چیزی که تو ذهنمه تویی، صبح بخیر."
+"وقتی چشمامو باز کردم به تو فکر کردم، صبح بخیر عزیزم."
+"چه خوبه که هر روز با تو بیدار میشم. صبح بخیر!"
+"صبح بخیر فرشته من، به روز جدید خوش اومدی."
+"هر صبح با تو یه جور دیگه قشنگه."
+"مثل خورشید درخشانم، صبح بخیر."
+"گلم، صبح بخیر."
+"شاهزاده/ملکه قلبم، صبح بخیر."
+"عشقم، خوبه که هستی. صبح بخیر."
+"به امید یک عمر صبح کردن با تو، صبح بخیر."
+"صبح بخیر گل من، روزت روشن باشه."
+"تو رویام تو، بیدار شدم تو... صبح بخیر تک ستاره من."
+"بیدار شدن با تو مثل اینه که زندگی رو از نو شروع کنی."
+"صبح بخیر همسفر زندگیم."
+"هر صبح با اسم تو بیدار شدن بی‌نهایت ارزشمنده."
+"صبح بخیر عسلم، از خواب شیرینت بیدار شدی؟"
+"امیدوارم روزی به روشنی درخشش چشمات داشته باشی."
+"صبح بخیر عمرم، خوبه که با منی."
+"یک روز جدید، امیدهای جدید، با تو... صبح بخیر."
+"صبحونه حاضره عشقم! صبح بخیر."
+"صبح بخیر معجزه من، روزت عالی باشه."
+"با یک بوسه روی گونه‌ات، صبح بخیر عزیزم."
+"چی می‌تونه به زیبایی بیدار شدن با تو باشه؟"
+"صبح بخیر نور من، تویی که راهمو روشن می‌کنی."
+"هر روزی که با تو شروع میشه خاصه. صبح بخیر."
+"زیباترین گلی که تو قلبم باز شده، صبح بخیر."
+"صبح بخیر روح من."
+"با اولین اشعه‌های صبح به تو فکر کردم. صبح بخیر."
+"تویی که به زندگیم معنا دادی، صبح بخیر."
+"صبح بخیر فرشته من، رویاهای شیرینت تموم شد؟"
+"خوابت چطور گذشت عشقم؟ صبح بخیر."
+"وقتی تو هستی، هر صبح زیباتره."
+"صبح بخیر مهتاب من."
+"اگه کنارم نباشی هم تو قلبمی. صبح بخیر."
+"صبح بخیر زیباترین آدم دنیا."
+"دوست دارم هر روز صبح به تو سلام کنم."
+"صبح بخیر عطر بهشتی من."
+"تو قهوه صبحم تو، تو قلبم تو. صبح بخیر."
+"به کوری چشم خورشید، تو از اونم درخشان‌تری. صبح بخیر."
+"صبح بخیر خوابالو، وقت بیدار شدنه!"
+"به امید یک عمر بیدار شدن کنار تو."
+"صبح بخیر روی خندان من."
+"با تو صبح‌ها یه جور دیگه قشنگه."
+"هیچ چیز مثل شروع روز با شنیدن صدات نیست."
+"صبح بخیر شاهزاده/ملکه رویاهای من."
+"عشقم، پاشو دیگه، خورشید طلوع کرده!"
+"صبح بخیر معنای زندگی من."
+"چه خوب کردی که اومدی تو زندگیم. صبح بخیر."
+"با تو هر روز عیده. صبح بخیر."
+"صبح بخیر عزیزم، دوستت دارم."
+"هر روز جدید بیشتر دوستت دارم. صبح بخیر."
+"صبح بخیر نور چشمم."
+"وقتی تو هستی حتی صبح‌ها هم عاشقانه است."
+"صبح بخیر همدم راهم."
+"خوبه که هستی، صبح بخیر عشقم."
+"زیباترین چیزی که وقتی بیدار میشم تو ذهنم میاد."
+"صبح بخیر فرشته من!"
+"با تو همه چیز قشنگه. صبح بخیر."
+"شروع روز با تو دلیل شکرگزاری منه."
+"صبح بخیر ضربان قلبم."
+"زیباترین رنگ‌های صبح با توئه."
+"صبح بخیر شادی من."
+"اگه تو باشی، هر روز بهاره. صبح بخیر."
+"برای من تو خورشیدو طلوع می‌کنی. صبح بخیر."
+"صبح بخیر، امیدوارم روز خوبی داشته باشی."
+"خیلی دلم برات تنگ شده. صبح بخیر."
+"صبح بخیر، تو برای من باارزش‌ترین هستی."
+"مثل صدای پرنده، آرامش‌بخش قلب من. صبح بخیر."
+"صبح بخیر فرشته من، با بوسه بیدارت می‌کنم از خوابت."
+"حتی تو اولین ساعات صبح هم زیبایی. صبح بخیر."
+"صبح بخیر عزیزم، روزت روشن باشه."
+"معنای زندگی من، همه چیز من. صبح بخیر."
+"صبح بخیر، امروز هم خیلی زیبایی."
+"با تو هر روز یک ماجراجوییه. صبح بخیر."
+"صبح بخیر، شروع یک روز جدید با تو عالیه."
+"غذای روحم، صبح بخیر."
+"صبح بخیر، برنامه امروزت چیه؟"
+"خاص‌ترین آدم برای من، صبح بخیر."
+"صبح بخیر، قلبم پر از توئه."
+"صبح بخیر تک‌دونه من."
+"هر صبح دلیل بیدار شدنم تویی. صبح بخیر."
+"صبح بخیر، امیدوارم امروزت هم عالی باشه."
+"بیدار شدن با تو مثل بیدار شدن تو بهشته."
+"صبح بخیر، دیشب اومدی تو رویاهام."
+"یک صبح بخیر پر از عشق!"
+"صبح بخیر خوش‌تیپ/زیبای من."
+"چشماتو باز کن، زیبایی دنیا منتظرته."
+"صبح بخیر، با تو همه چیز معنادارتره."
+"دوست دارم یک عمر با تو صبح کنم."
+"صبح بخیر عشق عزیزم."
+"زیباترین نور صبح، لبخند توئه. صبح بخیر."
+"صبح بخیر معمار رویاهای شیرین."
+"با تو هر لحظه یک هدیه‌ست. صبح بخیر."
+"صبح بخیر، روزت پر از شادی باشه."
+"چه خوبه که وقتی بیدار میشم تو رو می‌بینم. صبح بخیر."
+"صبح بخیر، همیشه با من بمون."
+"یک صبح بخیر که با عشقمون گرم شده."
+"صبح بخیر، خیلی دوستت دارم!"
+      ]
+    };
 
-    function generateText() {
-      const randomIndex = Math.floor(Math.random() * messages.length);
-      document.getElementById("quoteBox").textContent = messages[randomIndex];
-      document.getElementById("copyStatus").textContent = "";
+    function generate() {
+      const lang = document.getElementById("language").value;
+      const list = messages[lang];
+      const msg = list[Math.floor(Math.random() * list.length)];
+      document.getElementById("message").textContent = msg;
     }
 
     function copyText() {
-      const text = document.getElementById("quoteBox").textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        document.getElementById("copyStatus").textContent = "Copied!";
+      const msg = document.getElementById("message").textContent;
+      navigator.clipboard.writeText(msg).then(() => {
+        alert("Message copied to clipboard!");
       });
     }
   </script>
